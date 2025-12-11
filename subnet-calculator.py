@@ -1,10 +1,14 @@
 import ipaddress
+import sys
 
 def subnet_calculator():
     try:
-        # User input
-        cidr = input("Enter an IP address with CIDR notation (e.g., 192.168.1.0/24): ")
-        
+        # Check if CIDR is passed via command line
+        if len(sys.argv) > 1:
+            cidr = sys.argv[1]
+        else:
+            cidr = input("Enter an IP address with CIDR notation (e.g., 192.168.1.0/24): ")
+
         # Create the network object
         network = ipaddress.ip_network(cidr, strict=False)
         
@@ -18,7 +22,7 @@ def subnet_calculator():
         
         # Subnet mask and wildcard
         subnet_mask = network.netmask
-        wildcard = ipaddress.IPv4Address(int(network.hostmask))
+        wildcard = network.hostmask
         
         # Display results
         print("\n--- Subnet Information ---")
